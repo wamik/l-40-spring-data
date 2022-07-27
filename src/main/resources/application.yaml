@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/book_db
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+    username: postgres
+  jpa:
+    properties.hibernate.format_sql: true
+    #    generate-ddl: true
+
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG # logs the SQL statements
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # Logs the JDBC parameters passed to a query
+#    org.springframework: DEBUG # Logs transaction boundaries
+
+server:
+  servlet:
+    context-path: /api
