@@ -7,11 +7,15 @@ import com.example.l40springdatalive.dao.books.BookEntity;
 import com.example.l40springdatalive.dao.books.BooksRepository;
 import com.example.l40springdatalive.errors.ResourceNotFoundException;
 import com.example.l40springdatalive.web.books.BookDTO;
+import com.example.l40springdatalive.web.books.BookFilterDTO;
 import com.example.l40springdatalive.web.books.SaveBookDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -19,6 +23,8 @@ import java.util.function.Supplier;
 public interface BookService {
 
     List<BookDTO> findAll(Pageable pageable);
+
+    Page<BookDTO> findAllByFilter(BookFilterDTO filter, Pageable pageable);
 
     BookDTO findOne(Long id) throws Throwable;
 
@@ -51,6 +57,25 @@ class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Page<BookDTO> findAllByFilter(BookFilterDTO filter, Pageable pageable) {
+
+        LocalDate yearDate = null;
+
+        if (filter.getYear() != null)
+            yearDate = LocalDate.of(filter.getYear().getValue(), 1, 1);
+
+        Page<BookEntity> foundBooks = bookRepository.findAllByFilter(
+                filter.getTitle(),
+                yearDate,
+                filter.getAuthorFirstName(),
+                filter.getAuthorLastName(),
+                pageable);
+
+        return foundBooks
+                .map(BookEntity::toDto);
+    }
+
+    @Override
     public BookDTO findOne(Long id) throws Throwable {
         return bookRepository.findById(id)
                 .map(BookEntity::toDto)
@@ -58,6 +83,7 @@ class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookDTO save(SaveBookDTO saveAuthor) throws Throwable {
         AuthorEntity authorEntity = authorRepository.findById(saveAuthor.getAuthorId())
                 .orElseThrow((Supplier<Throwable>) () ->
@@ -71,6 +97,11 @@ class BookServiceImpl implements BookService {
                         saveAuthor.getDateOfIssue(),
                         null
                 ));
+
+        // update
+
+        // update
+
 
         return saved.toDto();
 

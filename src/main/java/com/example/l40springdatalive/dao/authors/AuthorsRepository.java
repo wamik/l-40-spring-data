@@ -14,14 +14,14 @@ import java.util.List;
 public interface AuthorsRepository extends JpaRepository<AuthorEntity, Long> {
 
 
-
-    Page<AuthorEntity> findByFirstName(String firstName, Pageable pageable);
-
-    Slice<AuthorEntity> findByFirstName1(String firstName, Pageable pageable);
-
-    List<AuthorEntity> findByLastname(String lastname, Sort sort);
-
-    List<AuthorEntity> findByLastname(String lastname, Pageable pageable);
+//
+//    Page<AuthorEntity> findByFirstName(String firstName, Pageable pageable);
+//
+//    Slice<AuthorEntity> findByFirstName1(String firstName, Pageable pageable);
+//
+//    List<AuthorEntity> findByLastname(String lastname, Sort sort);
+//
+//    List<AuthorEntity> findByLastname(String lastname, Pageable pageable);
 
 
 }

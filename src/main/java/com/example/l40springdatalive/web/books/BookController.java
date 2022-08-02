@@ -1,6 +1,7 @@
 package com.example.l40springdatalive.web.books;
 
 import com.example.l40springdatalive.service.books.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,12 @@ public class BookController {
     @GetMapping
     public List<BookDTO> findAll(Pageable pageable) {
         return bookService.findAll(pageable);
+    }
+
+
+   @GetMapping("/filter")
+    public Page<BookDTO> findAll(@RequestBody BookFilterDTO filter, Pageable pageable) {
+        return bookService.findAllByFilter(filter, pageable);
     }
 
     @GetMapping("/search")

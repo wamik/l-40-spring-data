@@ -39,5 +39,4 @@ public class AuthorsController {
         authorService.delete(id);
     }
 
-
 }
